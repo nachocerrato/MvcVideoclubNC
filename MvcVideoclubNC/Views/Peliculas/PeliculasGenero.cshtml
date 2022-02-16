@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MvcVideoclubNC.Models.Pelicula>
+
+@{
+    ViewData["Title"] = "PeliculasGenero";
+}
+
+@{
+    IEnumerable<Blob> blobs = ViewData["BLOBS"] as IEnumerable<Blob>;
+}
+
+
+        <h1>Películas por género</h1>
+
+
+        <table class="table table-dark">
+            <thead>
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+
+            <th style="font:bold">
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+
+                    <td>
+                        @foreach (Blob blob in blobs)
+                        {
+                            if (blob.Nombre == item.Foto)
+                            {
+                                <img src="@blob.Url" / style="height:150px;">
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+
+                    <td>
+                        <a asp-controller="Peliculas"
+                           asp-action="DetailsPelicula"
+                           asp-route-idpelicula="@item.IdPelicula">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>

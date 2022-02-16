@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcVideoclubNC", "MvcVideoclubNC\MvcVideoclubNC.csproj", "{632FD282-E372-4764-8831-DB5621E7A438}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiVideoclubNC", "..\ApiVideoclubNC\ApiVideoclubNC\ApiVideoclubNC.csproj", "{8F5604FD-A630-4F59-9670-5A6E3B8E4708}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{632FD282-E372-4764-8831-DB5621E7A438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{632FD282-E372-4764-8831-DB5621E7A438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{632FD282-E372-4764-8831-DB5621E7A438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{632FD282-E372-4764-8831-DB5621E7A438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F5604FD-A630-4F59-9670-5A6E3B8E4708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F5604FD-A630-4F59-9670-5A6E3B8E4708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F5604FD-A630-4F59-9670-5A6E3B8E4708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F5604FD-A630-4F59-9670-5A6E3B8E4708}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC043477-6EF0-47C3-9471-33CF379D00E5}
+	EndGlobalSection
+EndGlobal
