@@ -9,57 +9,28 @@
 }
 
 
-        <h1>Películas por género</h1>
+
+<h1 class="text-center" style="margin-bottom:3em;">Películas por género</h1>
 
 
-        <table class="table table-dark">
-            <thead>
-            <th>
-                @Html.DisplayNameFor(model => model.Foto)
-            </th>
-
-            <th style="font:bold">
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-
-
-            <th>
-                @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+    <div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+            @foreach (Blob blob in blobs)
+            {
+                if (blob.Nombre == item.Foto)
                 {
-                <tr>
+                    <a asp-controller="Peliculas"
+                        asp-action="DetailsPelicula"
+                        asp-route-idpelicula="@item.IdPelicula">
+                    <img src="@blob.Url"
+                         class="posterpelicula">
 
-                    <td>
-                        @foreach (Blob blob in blobs)
-                        {
-                            if (blob.Nombre == item.Foto)
-                            {
-                                <img src="@blob.Url" / style="height:150px;">
-                            }
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Titulo)
-                    </td>
-
-
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Precio)
-                    </td>
-
-                    <td>
-                        <a asp-controller="Peliculas"
-                           asp-action="DetailsPelicula"
-                           asp-route-idpelicula="@item.IdPelicula">
-                            Details
-                        </a>
-                    </td>
-                </tr>
+                    </a>
                 }
-            </tbody>
-        </table>
+            }
+        </div>
+    }
+    </div>
+

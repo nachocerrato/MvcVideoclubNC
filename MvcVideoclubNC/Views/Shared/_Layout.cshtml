@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MvcVideoclubNC</title>
+
+    <link href="~/css/peliculas.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -24,10 +26,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        
+
                     </ul>
                 </div>
-                @await Component.InvokeAsync("MenuGeneros") 
+                @await Component.InvokeAsync("MenuGeneros")
             </div>
         </nav>
     </header>
