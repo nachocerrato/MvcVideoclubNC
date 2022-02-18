@@ -48,5 +48,16 @@ namespace MvcVideoclubNC.Services
             }
             return blobs;
         }
+
+        public string GetBlobUrl(string containerName, string imagen)
+        {
+            
+            BlobContainerClient containerClient =
+                this.client.GetBlobContainerClient(containerName);
+
+            BlobClient blobClient = containerClient.GetBlobClient(imagen);
+
+            return blobClient.Uri.AbsoluteUri;
+        }
     }
 }

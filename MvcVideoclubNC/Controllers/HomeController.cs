@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MvcVideoclubNC.Models;
+using MvcVideoclubNC.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,16 +13,36 @@ namespace MvcVideoclubNC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private ServiceApiVideoclub service;
+        private ServiceStorageBlobs serviceBlob;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, 
+            ServiceApiVideoclub service, ServiceStorageBlobs serviceBlob)
         {
             _logger = logger;
+            this.service = service;
+            this.serviceBlob = serviceBlob;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Pelicula> peliculas =
+                await this.service.GetPeliculasAsync();
+
+            string containerName = "blobsvideoclubnc";
+
+            List<Blob> blobs =
+                await this.serviceBlob.GetBlobsAsync(containerName);
+            ViewData["BLOBS"] = blobs;
+
+            return View(peliculas);
         }
+
+        //public IActionResult Index()
+        //{
+
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {

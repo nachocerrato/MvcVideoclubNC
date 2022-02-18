@@ -33,5 +33,22 @@ namespace MvcVideoclubNC.Controllers
 
             return View(peliculas);
         }
+
+        public async Task<IActionResult> DetailsPelicula(int idpelicula)
+        {
+            Pelicula pelicula =
+                await this.service.FindPeliculaAsync(idpelicula);
+            string imagen = pelicula.Foto;
+
+
+            string containerName = "blobsvideoclubnc";
+            string blobUrl = this.serviceBlob.GetBlobUrl(containerName, imagen);
+            ViewData["BLOB"] = blobUrl;
+
+
+            return View(pelicula);
+        }
+
+
     }
 }
