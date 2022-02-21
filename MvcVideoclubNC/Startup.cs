@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MvcVideoclubNC.Data;
 using MvcVideoclubNC.Services;
 using System;
 using System.Collections.Generic;
@@ -44,6 +46,20 @@ namespace MvcVideoclubNC
             services.AddTransient<ServiceStorageBlobs>(
                 x => new ServiceStorageBlobs(storagekey));
 
+            ////Usuarios con Identity
+
+            //string appid = this.Configuration.GetValue<string>("Authentication:Microsoft:ApplicationId");
+            //string secretKey = this.Configuration.GetValue<string>("Authentication:Microsoft:SecretKey");
+
+            ////Indicamos que tendremos un usuario en dicho DbContext
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            ////Indicamos el tipo de autentificación
+            //services.AddAuthentication().AddMicrosoftAccount(options =>
+            //{
+            //    options.ClientId = appid;
+            //    options.ClientSecret = secretKey;
+            //});
 
             services.AddControllersWithViews();
 
@@ -68,6 +84,9 @@ namespace MvcVideoclubNC
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //Para usar Session
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

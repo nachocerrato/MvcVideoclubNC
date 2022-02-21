@@ -1,0 +1,31 @@
+﻿@model List<Pelicula>
+
+<h1>Carrito</h1>
+
+<table class="table table-light">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Fecha de estreno</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var peli in Model)
+            {
+        <tr>
+            <td>@peli.Titulo</td>
+            <td>@peli.FechaEstreno</td>
+            <td>@peli.Precio</td>
+            <td>
+                <a asp-controller="Peliculas"
+                   asp-action="CarritoCompra"
+                   asp-route-ideliminar="@peli.IdPelicula"
+                   class="btn btn-danger">
+                    Eliminar del carrito
+                </a>
+            </td>
+        </tr>
+            }
+    </tbody>
+</table>

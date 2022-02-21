@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MvcVideoclubNC.Extensions;
 using MvcVideoclubNC.Models;
 using MvcVideoclubNC.Services;
 using System;
@@ -44,11 +45,60 @@ namespace MvcVideoclubNC.Controllers
             string containerName = "blobsvideoclubnc";
             string blobUrl = this.serviceBlob.GetBlobUrl(containerName, imagen);
             ViewData["BLOB"] = blobUrl;
-
+            ViewData["YOUTUBE"] = "https://www.youtube.com/embed/";
 
             return View(pelicula);
         }
 
+        //Método para utilizar Sessions añadiendo películas al carrito
+        public IActionResult AddPeliculaCarrito(int idpelicula)
+        {
+            List<int> idspeliculas;
 
+            if(HttpContext.Session.GetObject<List<int>>("CARRITO") == null)
+            {
+                idspeliculas = new List<int>();
+            }
+            else
+            {
+                idspeliculas =
+                    HttpContext.Session.GetObject<List<int>>("CARRITO");
+            }
+
+            idspeliculas.Add(idpelicula);
+            HttpContext.Session.SetObject<List<int>>("CARRITO", idspeliculas);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> CarritoCompra(int? ideliminar)
+        {
+            List<int> carrito =
+                HttpContext.Session.GetObject<List<int>>("CARRITO");
+            if(carrito == null)
+            {
+                ViewData["MENSAJE"] = "No hay películas en tu carrito.";
+                return View();
+            }
+            else
+            {
+                if (ideliminar != null)
+                {
+                    carrito.Remove(ideliminar.Value);
+                    if(carrito.Count == 0)
+                    {
+                        HttpContext.Session.Remove("CARRITO");
+                        return View();
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetObject<List<int>>("CARRITO", carrito);
+                    }
+                }
+                List<Pelicula> peliculas =
+                    await this.service.GetCarritoPeliculasAsync(carrito);
+                return View(peliculas);
+            }
+        }
     }
 }

@@ -7,58 +7,67 @@
 <h1>@Model.Titulo</h1>
 
 <div>
-    <hr />
+    <hr style="border-top:3px; color:#bbb;"/>
     <div class="row">
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xl-6">
-            <img src="@ViewData["BLOB"]" class="posterpelicula">
+        <div class="col-lg-4 col-sm-4 col-md-4 col-xl-4">
+            <img src="@ViewData["BLOB"]" class="posterpelicula" style="margin-top:0px; margin-left:.3em">
         </div>
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xl-6">
-            <dd class="col-sm-12" style="font-style:italic">
-                @Html.DisplayFor(model => model.Argumento)
-            </dd>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FechaEstreno)
-            </div>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FechaEstreno)
-            </dd>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Actores)
-            </div>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Actores)
-            </dd>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Director)
-            </div>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Director)
-            </dd>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Duracion)
-            </div>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Duracion)
-            </dd>
-            <div class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Precio)
-            </div>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Precio)
-            </dd>
+        <div class="col-lg-8 col-sm-8 col-md-8 col-xl-8">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p style="font-style: italic; padding-bottom:1em; border-bottom: 3px solid #bbb;">
+                        @Html.DisplayFor(model => model.Argumento)
+                    </p>
+                </div>
+                <hr class="solid" />
+                <div class="row" style="border: 1px solid #d0d0d0; border: 1px solid #d0d0d0; 
+                border-radius: 1em; padding-left: .3em; padding-bottom: .6em; padding-top: .6em; 
+                margin-left: 1em; margin-right: 1em;" >
+                    <div class="col-sm-2">
+                        Actores:
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Actores)
+                    </div>
+                    <div class="col-sm-2">
+                        Director:
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Director)
+                    </div>
+                    <div class="col-sm-2">
+                        Duración:
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Duracion)
+                    </div>
+                    <div class="col-sm-2">
+                        Precio:
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Precio)€
+                    </div>
+                    <div class="col-sm-12">
+                        <a asp-controller="Peliculas"
+                           asp-action="AddPeliculaCarrito"
+                           asp-route-idpelicula="@Model.IdPelicula"
+                           class="btn btn-dark"
+                           style=" margin-top: 1em; margin-bottom: 1em;">
+                            Añadir al carrito
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="margin-left: 1em; margin-top: 1.5em;">
+                    <iframe width="560" height="315" src="@ViewData["YOUTUBE"]@Model.Youtube"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:1em;"></iframe>
+                </div>
 
-            <dd class="col-sm-12">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/@Model.Youtube"
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-            </dd>
-        </div>
+            </div>
         
+        </div>
     </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+

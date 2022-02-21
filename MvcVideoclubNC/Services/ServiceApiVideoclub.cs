@@ -147,5 +147,21 @@ namespace MvcVideoclubNC.Services
                 await this.CallApiAsync<List<ClientesPeliculasPedido>>(request);
             return pedidosCliente;
         }
+
+
+
+        //Métodos con el carrito
+        public async Task<List<Pelicula>> GetCarritoPeliculasAsync(List<int> carrito)
+        {
+            string request = "/api/peliculas";
+            List<Pelicula> peliculas =
+                await this.CallApiAsync<List<Pelicula>>(request);
+            var consulta = from datos in peliculas
+                           where carrito.Contains(datos.IdPelicula)
+                           select datos;
+            return consulta.ToList();
+        }
+
+
     }
 }
