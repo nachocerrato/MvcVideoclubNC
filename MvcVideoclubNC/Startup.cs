@@ -1,11 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MvcVideoclubNC.Data;
 using MvcVideoclubNC.Services;
 using System;
 using System.Collections.Generic;
@@ -27,10 +26,13 @@ namespace MvcVideoclubNC
         public void ConfigureServices(IServiceCollection services)
         {
 
-            string urlapi = this.Configuration.GetValue<string>("UrlApis:ApiPeliculas");
-            ServiceApiVideoclub service = new ServiceApiVideoclub(urlapi);
-            services.AddTransient<ServiceApiVideoclub>(x => service);
+            string urlapi = 
+                this.Configuration.GetValue<string>("UrlApis:ApiPeliculas");
 
+            ServiceApiVideoclub service = new ServiceApiVideoclub(urlapi);
+            services.AddTransient<ServiceApiVideoclub>
+                (z => service);
+            
             //Habilitamos Session
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -39,6 +41,15 @@ namespace MvcVideoclubNC
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie();
+
+            services.AddControllersWithViews(options => options.EnableEndpointRouting = false);
 
             //Para trabajar con Blobs
             string storagekey =
@@ -60,9 +71,6 @@ namespace MvcVideoclubNC
             //    options.ClientId = appid;
             //    options.ClientSecret = secretKey;
             //});
-
-            services.AddControllersWithViews();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,17 +90,17 @@ namespace MvcVideoclubNC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //Para usar Session
             app.UseSession();
 
-            app.UseEndpoints(endpoints =>
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllerRoute(
+                routes.MapRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

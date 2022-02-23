@@ -1,13 +1,14 @@
-﻿using MvcVideoclubNC.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using MvcVideoclubNC.Models;
+using Newtonsoft.Json;
 using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+
 
 namespace MvcVideoclubNC.Services
 {
@@ -33,8 +34,10 @@ namespace MvcVideoclubNC.Services
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
                 string url = this.UrlApi + request;
+
                 HttpResponseMessage response =
                     await client.GetAsync(url);
+
                 if (response.IsSuccessStatusCode)
                 {
                     T data =
@@ -56,10 +59,12 @@ namespace MvcVideoclubNC.Services
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
                 string url = this.UrlApi + request;
-                client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+                client.DefaultRequestHeaders.Add
+                    ("Authorization", "bearer " + token);
 
                 HttpResponseMessage response =
                     await client.GetAsync(url);
+
                 if (response.IsSuccessStatusCode)
                 {
                     T data =
@@ -79,6 +84,7 @@ namespace MvcVideoclubNC.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/auth/login";
+
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -89,7 +95,9 @@ namespace MvcVideoclubNC.Services
                 string json = JsonConvert.SerializeObject(model);
                 StringContent content =
                     new StringContent(json, Encoding.UTF8, "application/json");
+
                 client.BaseAddress = new Uri(this.UrlApi);
+
                 HttpResponseMessage response =
                     await client.PostAsync(request, content);
                 if (response.IsSuccessStatusCode)
@@ -140,13 +148,7 @@ namespace MvcVideoclubNC.Services
             return pelicula;
         }
 
-        public async Task<List<ClientesPeliculasPedido>> GetPeliculasPedidosClienteAsync(int idcliente)
-        {
-            string request = "/api/peliculas/pedidoscliente/" + idcliente;
-            List<ClientesPeliculasPedido> pedidosCliente =
-                await this.CallApiAsync<List<ClientesPeliculasPedido>>(request);
-            return pedidosCliente;
-        }
+
 
 
 
@@ -162,6 +164,54 @@ namespace MvcVideoclubNC.Services
             return consulta.ToList();
         }
 
+        //Métodos con seguridad
 
+
+        public async Task<Cliente> GetPerfilClienteAsync(string token)
+        {
+
+            string request = "/api/peliculas/perfilcliente";
+            Cliente cliente =
+                await this.CallApiAsync<Cliente>(request, token);
+            return cliente;
+
+        }
+
+        public async Task<List<ClientesPeliculasPedido>> GetPeliculasPedidosClienteAsync(string token)
+        {
+            string request = "/api/peliculas/pedidoscliente";
+            List<ClientesPeliculasPedido> pedidosCliente =
+                await this.CallApiAsync<List<ClientesPeliculasPedido>>(request,token);
+            return pedidosCliente;
+        }
+
+        public async Task AddPedidoCliente(
+            int idcliente, int idpelicula, int cantidad,
+            DateTime fecha, int precio, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/peliculas/addpedido";
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+
+                Pedido pedido = new Pedido();
+
+                pedido.IdCliente = idcliente;
+                pedido.IdPelicula = idpelicula;
+                pedido.Cantidad = cantidad;
+                pedido.Fecha = fecha;
+                pedido.Precio = precio;
+
+                string json = JsonConvert.SerializeObject(pedido);
+                StringContent content =
+                    new StringContent(json, Encoding.UTF8, "application/json");
+                client.BaseAddress = new Uri(this.UrlApi);
+                client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
+        }
     }
 }

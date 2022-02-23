@@ -68,7 +68,7 @@ namespace MvcVideoclubNC.Controllers
             idspeliculas.Add(idpelicula);
             HttpContext.Session.SetObject<List<int>>("CARRITO", idspeliculas);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("CarritoCompra", "Peliculas");
         }
 
         public async Task<IActionResult> CarritoCompra(int? ideliminar)
@@ -100,5 +100,7 @@ namespace MvcVideoclubNC.Controllers
                 return View(peliculas);
             }
         }
+
+
     }
 }

@@ -24,25 +24,25 @@ namespace MvcVideoclubNC.Controllers
             this.serviceBlob = serviceBlob;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            List<Pelicula> peliculas =
-                await this.service.GetPeliculasAsync();
-
-            string containerName = "blobsvideoclubnc";
-
-            List<Blob> blobs =
-                await this.serviceBlob.GetBlobsAsync(containerName);
-            ViewData["BLOBS"] = blobs;
-
-            return View(peliculas);
-        }
-
-        //public IActionResult Index()
+        //public async Task<IActionResult> Index()
         //{
+        //    List<Pelicula> peliculas =
+        //        await this.service.GetPeliculasAsync();
 
-        //    return View();
+        //    string containerName = "blobsvideoclubnc";
+
+        //    List<Blob> blobs =
+        //        await this.serviceBlob.GetBlobsAsync(containerName);
+        //    ViewData["BLOBS"] = blobs;
+
+        //    return View(peliculas);
         //}
+
+        public IActionResult Index()
+        {
+
+            return View();
+        }
 
         public IActionResult Privacy()
         {
